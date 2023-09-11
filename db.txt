@@ -1,0 +1,23 @@
+CREATE DATABASE gateproject;
+
+CREATE TABLE approval(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    picture VARCHAR(200) NOT NULL,
+    name VARCHAR(60) NOT NULL,
+    mobileNumber BIGINT NOT NULL,
+    headcount INT NOT NULL,
+    department VARCHAR(60) NOT NULL,
+    staffName VARCHAR(60) NOT NULL UNIQUE,
+    reason VARCHAR(255) NOT NULL,
+    inTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    outTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    exitApproval INT DEFAULT 0
+);
+
+CREATE TABLE staffList(
+    staffId INT NOT NULL,
+    department VARCHAR(60) NOT NULL,
+    staffName VARCHAR(60) NOT NULL,
+    staffMobile BIGINT NOT NULL,
+    FOREIGN KEY (staffName) REFERENCES approval(staffName)
+);
