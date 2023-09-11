@@ -2,12 +2,12 @@ CREATE DATABASE gateproject;
 
 CREATE TABLE approval(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-    picture VARCHAR(200) NOT NULL,
+    picture VARCHAR(200),
     name VARCHAR(60) NOT NULL,
     mobileNumber BIGINT NOT NULL,
     headcount INT NOT NULL,
     department VARCHAR(60) NOT NULL,
-    staffName VARCHAR(60) NOT NULL UNIQUE,
+    staffName VARCHAR(60) NOT NULL,
     reason VARCHAR(255) NOT NULL,
     inTime DATETIME DEFAULT CURRENT_TIMESTAMP,
     outTime DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -21,3 +21,15 @@ CREATE TABLE staffList(
     staffMobile BIGINT NOT NULL,
     FOREIGN KEY (staffName) REFERENCES approval(staffName)
 );
+
+ALTER TABLE approval
+ADD INDEX idx_staffName (staffName);
+
+
+INSERT INTO approval(name,mobileNumber,headcount,department,staffName,reason) VALUES ('Sabhari',9344251418,0,'IT','Kalaiarasan','PT Meeting');
+INSERT INTO approval(name,mobileNumber,headcount,department,staffName,reason) VALUES ('Bharath',9360436709,2,'IT','Kalaiarasan','TC Collection');
+INSERT INTO approval(name,mobileNumber,headcount,department,staffName,reason) VALUES ('Kalaiarasi',8072906690,0,'IT','Kalaiarasan','Counselling');
+INSERT INTO approval(name,mobileNumber,headcount,department,staffName,reason) VALUES ('Poovizhi',9689263395,4,'IT','Kalaiarasan','Marksheet Collection');
+
+
+INSERT INTO staffList VALUES (1221,'IT','Kalaiarasan',7708331331);
