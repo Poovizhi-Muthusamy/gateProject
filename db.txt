@@ -14,16 +14,12 @@ CREATE TABLE approval(
     exitApproval INT DEFAULT 0
 );
 
-CREATE TABLE staffList(
-    staffId INT NOT NULL,
+CREATE TABLE staffList (
+    staffId INT NOT NULL UNIQUE,
     department VARCHAR(60) NOT NULL,
     staffName VARCHAR(60) NOT NULL,
     staffMobile BIGINT NOT NULL,
-    FOREIGN KEY (staffName) REFERENCES approval(staffName) ON DELETE NO ACTION
 );
-
-ALTER TABLE approval
-ADD INDEX idx_staffName (staffName);
 
 
 INSERT INTO approval(name,mobileNumber,headcount,department,staffName,reason) VALUES ('Sabhari',9344251418,0,'IT','Kalaiarasan','PT Meeting');
