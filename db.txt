@@ -19,7 +19,7 @@ CREATE TABLE staffList(
     department VARCHAR(60) NOT NULL,
     staffName VARCHAR(60) NOT NULL,
     staffMobile BIGINT NOT NULL,
-    FOREIGN KEY (staffName) REFERENCES approval(staffName)
+    FOREIGN KEY (staffName) REFERENCES approval(staffName) ON DELETE NO ACTION
 );
 
 ALTER TABLE approval
