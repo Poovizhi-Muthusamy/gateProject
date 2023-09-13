@@ -1,7 +1,7 @@
 CREATE DATABASE gateproject;
 
 CREATE TABLE approval(
-	id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     picture VARCHAR(200),
     name VARCHAR(60) NOT NULL,
     mobileNumber BIGINT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE approval(
     staffName VARCHAR(60) NOT NULL,
     reason VARCHAR(255) NOT NULL,
     inTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    outTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    outTime DATETIME DEFAULT NULL,
     exitApproval INT DEFAULT 0
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE staffList (
     staffId INT NOT NULL UNIQUE,
     department VARCHAR(60) NOT NULL,
     staffName VARCHAR(60) NOT NULL,
-    staffMobile BIGINT NOT NULL,
+    staffMobile BIGINT NOT NULL
 );
 
 
