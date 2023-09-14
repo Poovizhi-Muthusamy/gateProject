@@ -23,11 +23,15 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     
 <![endif]-->
+    <!-- Alertify includes and styling -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
     <!-- Table  and JS includes -->
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
 </head>
 
@@ -115,7 +119,7 @@
                                 <span class="badge badge-pill badge-danger font-14 rounded-circle position-absolute top-0 start-100 translate-middle ">
                                     <span class="navbadgebutton">
                                         <?php
-                                        $query = "SELECT * FROM approval WHERE exitApproval=0;";
+                                        $query = "SELECT * FROM approval WHERE exitApproval=0 AND DATE(inTime) = CURDATE();";
                                         $result = mysqli_query($db, $query);
                                         $count = mysqli_num_rows($result);
                                         if ($count > 0) {
@@ -162,8 +166,10 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="p-t-30">
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="watchin.php" aria-expanded="false"><i class="fas fa-upload"></i><span class="hide-menu ">Watchman - In</span></li></a>
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link  " href="index.php" aria-expanded="false"><i class="fas fa-check-square"></i><span class="hide-menu badgebtn">Gate Approvals<span class="badge badge-pill ml-3 badge-danger font-14 "><?php
-                                                                                                                                                                                                                                                                                                    $query = "SELECT * FROM approval WHERE exitApproval=0;";
+                                                                                                                                                                                                                                                                                                    $query = "SELECT * FROM approval WHERE exitApproval=0 AND DATE(inTime) = CURDATE();";
                                                                                                                                                                                                                                                                                                     $result = mysqli_query($db, $query);
                                                                                                                                                                                                                                                                                                     $count = mysqli_num_rows($result);
                                                                                                                                                                                                                                                                                                     if ($count > 0) {
@@ -174,6 +180,7 @@
                                                                                                                                                                                                                                                                                                     ?></span></span></a>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="management.php" aria-expanded="false"><i class="fas fa-building"></i><span class="hide-menu ">Management</span></li></a>
+
                     </ul>
 
 
@@ -207,11 +214,11 @@
                                 <div class="">
 
                                     <?php
-                                    $query2 = "SELECT * FROM approval WHERE exitApproval='0';";
+                                    $query2 = "SELECT * FROM approval WHERE exitApproval='0' AND DATE(inTime) = CURDATE() ORDER BY id DESC;";
                                     $query_run2 = mysqli_query($db, $query2);
                                     if (mysqli_num_rows($query_run2) == 0) {
                                         echo '<div class="row ">';
-                                        echo '<div class="col-auto ml-5 pl-5">';
+                                        echo '<div class="col-12 text-center  mb-5 font-14 font-bold">';
 
                                         echo 'No visitors for you so far';
                                         echo '</div>';
@@ -225,6 +232,7 @@
                                             $headcount = $student2['headcount'];
                                             $inTime = date("h:i A", strtotime($student2['inTime']));
                                             $reason = $student2['reason'];
+                                            $image = $student2['picture'];
                                             $message1 = "Hello $staffName,\n";
                                             $message2 = "A person named <strong>$name</strong> has come to meet you along with <strong>$headcount</strong> others at <strong>$inTime</strong> for <strong>$reason</strong>.\n";
                                             $message3 = "Have you met $name ? \n";
@@ -236,7 +244,9 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-md-2 text-center col-auto pb-md-0 pb-3">
                                                         <!-- Column for the image -->
-                                                        <img src="assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle">
+                                                        <?php
+                                                        echo "<img src='$image' alt='user' width='75' height='75' class='rounded-circle'>";
+                                                        ?>
                                                     </div>
                                                     <div class="col-md-8 col-sm-auto pb-md-0 pb-3">
                                                         <!-- Column for the content (text) -->
@@ -261,7 +271,9 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-md-2 text-center col-auto pb-md-0 pb-3">
                                                         <!-- Column for the image -->
-                                                        <img src="assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle">
+                                                        <?php
+                                                        echo "<img src='$image' alt='user' width='75' height='75' class='rounded-circle'>";
+                                                        ?>
                                                     </div>
                                                     <div class="col-md-8 col-sm-auto pb-md-0 pb-3">
                                                         <!-- Column for the content (text) -->
@@ -408,10 +420,13 @@
                             $('.badgebtn').load(window.location.href + ' .badgebtn');
                             $('.navbadgebutton').load(window.location.href + ' .navbadgebutton');
 
-
+                            alertify.set('notifier', 'position', 'top-right');
+                            alertify.success(res.message);
 
                         } else {
                             console.log("Update failed!");
+                            alertify.set('notifier', 'position', 'top-right');
+                            alertify.error(res.message);
                         }
                     },
                     error: function() {
@@ -459,7 +474,6 @@
                         },
                         success: function(response) {
                             $("#zero_config tbody").html(response);
-                            $('#zero_config').DataTable(); // Initialize DataTables if needed
                         },
                         error: function() {
                             console.log("AJAX error occurred.");
@@ -469,12 +483,7 @@
             });
         </script>
 
-        <script>
-            /****************************************
-             *       Basic Table                   *
-             **************************************/
-            $('#zero_config').DataTable();
-        </script>
+
         <!-- ============================================================== -->
         <!-- End Wrapper -->
         <!-- ============================================================== -->
