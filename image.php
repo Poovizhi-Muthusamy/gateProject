@@ -1,5 +1,5 @@
 <?php 
-include("config.php");
+include_once("config.php");
 
 // Change the query to order by InTime instead of id
 $query = "SELECT picture FROM approval ORDER BY InTime DESC LIMIT 1";
