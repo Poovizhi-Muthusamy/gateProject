@@ -26,8 +26,8 @@
     <!-- Table  and JS includes -->
     <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
 </head>
 
@@ -115,7 +115,7 @@
                                 <span class="badge badge-pill badge-danger font-14 rounded-circle position-absolute top-0 start-100 translate-middle ">
                                     <span class="navbadgebutton">
                                         <?php
-                                        $query = "SELECT * FROM approval WHERE exitApproval=0;";
+                                        $query = "SELECT * FROM approval WHERE exitApproval=0 AND DATE(inTime) = CURDATE();";
                                         $result = mysqli_query($db, $query);
                                         $count = mysqli_num_rows($result);
                                         if ($count > 0) {
@@ -162,8 +162,10 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="p-t-30">
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="watchin.php" aria-expanded="false"><i class="fas fa-upload"></i><span class="hide-menu ">Watchman - In</span></li></a>
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php" aria-expanded="false"><i class="fas fa-check-square"></i><span class="hide-menu badgebtn">Gate Approvals<span class="badge badge-pill ml-3 badge-danger font-14 "><?php
-                                                                                                                                                                                                                                                                                                    $query = "SELECT * FROM approval WHERE exitApproval=0;";
+                                                                                                                                                                                                                                                                                                    $query = "SELECT * FROM approval WHERE exitApproval=0 AND DATE(inTime) = CURDATE();";
                                                                                                                                                                                                                                                                                                     $result = mysqli_query($db, $query);
                                                                                                                                                                                                                                                                                                     $count = mysqli_num_rows($result);
                                                                                                                                                                                                                                                                                                     if ($count > 0) {
