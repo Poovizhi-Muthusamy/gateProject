@@ -7,9 +7,9 @@ if (isset($_POST['selectedDate'])) {
     $selectedDate = $_POST['selectedDate'];
 
     if ($selectedDate === "") {
-        $query = "SELECT * FROM approval WHERE DATE(inTime) = CURDATE();";
+        $query = "SELECT * FROM approval WHERE DATE(inTime) = CURDATE() ORDER BY id DESC;"; //Need to ask Kalaiarasan Sir,not displaying in desc order
     } else {
-        $query = "SELECT * FROM approval WHERE DATE(inTime) = '$selectedDate'";
+        $query = "SELECT * FROM approval WHERE DATE(inTime) = '$selectedDate' ORDER BY id DESC;";
     }
 
     $query_run = mysqli_query($db, $query);
